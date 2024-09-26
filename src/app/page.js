@@ -1,8 +1,15 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Country, State } from "country-state-city"; // Library for fetching states
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Box,
+  Divider,
+} from "@mui/material";
 
 const CountryList = () => {
   const [countries, setCountries] = useState([]);
@@ -40,48 +47,103 @@ const CountryList = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <Box display="flex" height="100vh">
       {/* Country List Section */}
-      <h2 className="text-xl font-semibold mb-4 fixed">Countries</h2>
+      <Box
+        width="40%"
+        borderRight={1}
+        borderColor="divider"
+        display="flex"
+        flexDirection="column"
+      >
+        {/* Fixed Heading */}
+        <Box
+          position="sticky"
+          top={0}
+          bgcolor="background.paper"
+          zIndex={1}
+          p={2}
+          // borderBottom={1}
+        >
+          <Typography variant="h6" gutterBottom>
+            Countries
+          </Typography>
+        </Box>
 
-      <div className="w-2/5 p-4 border-r mt-8 overflow-y-auto">
-        <ul className="space-y-2">
-          {countries.map((country) => (
-            <li
-              key={country.value}
-              onClick={() => handleCountryClick(country)}
-              className={`cursor-pointer p-3 rounded transition-colors duration-300 
-                ${
-                  selectedCountry.isoCode === country.value
-                    ? "bg-blue-600 text-white font-bold"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }
-              `}
-            >
-              {country.label}
-            </li>
-          ))}
-        </ul>
-      </div>
+        {/* Scrollable Country List */}
+        <Box flex={1} overflow="auto" className="custom-scrollbar">
+          <List>
+            {countries.map((country) => (
+              <ListItem
+                button
+                key={country.value}
+                onClick={() => handleCountryClick(country)}
+                selected={selectedCountry.isoCode === country.value}
+                sx={{
+                  bgcolor:
+                    selectedCountry.isoCode === country.value
+                      ? "primary.light"
+                      : "transparent",
+                  "&:hover": {
+                    bgcolor:
+                      selectedCountry.isoCode === country.value
+                        ? "primary.light"
+                        : "grey.100",
+                  },
+                }}
+              >
+                <ListItemText
+                  primary={country.label}
+                  sx={{
+                    color:
+                      selectedCountry.isoCode === country.value
+                        ? "primary.main"
+                        : "text.primary",
+                    fontWeight:
+                      selectedCountry.isoCode === country.value
+                        ? "bold"
+                        : "normal",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Box>
 
       {/* States Section */}
-      <h2 className="text-xl font-semibold mb-4 fixed left-[40%]">
-        States in {selectedCountry.name}
-      </h2>
-      <div className="w-3/5 p-4 mt-8 overflow-y-auto">
-        <ul className="space-y-2">
-          {states.length > 0 ? (
-            states.map((state) => (
-              <li key={state.isoCode} className="p-2 border-b">
-                {state.name}
-              </li>
-            ))
-          ) : (
-            <p>No states available</p>
-          )}
-        </ul>
-      </div>
-    </div>
+      <Box width="60%" display="flex" flexDirection="column">
+        {/* Fixed Heading */}
+        <Box
+          position="sticky"
+          top={0}
+          bgcolor="background.paper"
+          zIndex={1}
+          p={2}
+          // borderBottom={1}
+        >
+          <Typography variant="h6" gutterBottom>
+            States in {selectedCountry.name}
+          </Typography>
+        </Box>
+
+        {/* Scrollable State List */}
+        <Box flex={1} overflow="auto" className="custom-scrollbar">
+          <List>
+            {states.length > 0 ? (
+              states.map((state) => (
+                <ListItem key={state.isoCode}>
+                  <ListItemText primary={state.name} />
+                  <Divider />
+                </ListItem>
+              ))
+            ) : (
+              <Typography>No states available</Typography>
+            )}
+          </List>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
