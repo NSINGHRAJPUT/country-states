@@ -74,38 +74,40 @@ const CountryList = () => {
         <Box flex={1} overflow="auto" className="custom-scrollbar">
           <List>
             {countries.map((country) => (
-              <ListItem
-                button
-                key={country.value}
-                onClick={() => handleCountryClick(country)}
-                selected={selectedCountry.isoCode === country.value}
-                sx={{
-                  bgcolor:
-                    selectedCountry.isoCode === country.value
-                      ? "primary.light"
-                      : "transparent",
-                  "&:hover": {
+              <Box key={country.value} border={1}>
+                <ListItem
+                  button
+                  key={country.value}
+                  onClick={() => handleCountryClick(country)}
+                  selected={selectedCountry.isoCode === country.value}
+                  sx={{
                     bgcolor:
                       selectedCountry.isoCode === country.value
-                        ? "primary.light"
-                        : "grey.100",
-                  },
-                }}
-              >
-                <ListItemText
-                  primary={country.label}
-                  sx={{
-                    color:
-                      selectedCountry.isoCode === country.value
-                        ? "primary.main"
-                        : "text.primary",
-                    fontWeight:
-                      selectedCountry.isoCode === country.value
-                        ? "bold"
-                        : "normal",
+                        ? "warning.light"
+                        : "transparent",
+                    "&:hover": {
+                      bgcolor:
+                        selectedCountry.isoCode === country.value
+                          ? "warning.light"
+                          : "grey.100",
+                    },
                   }}
-                />
-              </ListItem>
+                >
+                  <ListItemText
+                    primary={country.label}
+                    sx={{
+                      color:
+                        selectedCountry.isoCode === country.value
+                          ? "primary.main"
+                          : "text.primary",
+                      fontWeight:
+                        selectedCountry.isoCode === country.value
+                          ? "bold"
+                          : "normal",
+                    }}
+                  />
+                </ListItem>
+              </Box>
             ))}
           </List>
         </Box>
@@ -132,10 +134,12 @@ const CountryList = () => {
           <List>
             {states.length > 0 ? (
               states.map((state) => (
-                <ListItem key={state.isoCode}>
-                  <ListItemText primary={state.name} />
-                  <Divider />
-                </ListItem>
+                <Box key={state.isoCode} border={1}>
+                  <ListItem>
+                    <ListItemText primary={state.name} />
+                    <Divider />
+                  </ListItem>
+                </Box>
               ))
             ) : (
               <Typography>No states available</Typography>
